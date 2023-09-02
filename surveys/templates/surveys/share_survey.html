@@ -1,0 +1,37 @@
+{% extends "main/base.html" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <h2 class="text-center pb-4">{{ survey.title }}</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-3">
+            {% include './sidemenu.html' %} 
+        </div>
+        <div class="col-12 col-md-9 py-3 text-center">
+            <h3 class="text-center">Udostępnij ankietę</h3>
+            <div class="row">
+                <div class="col p-3">
+                    <h4>Kod QR</h4>
+                    <p>
+                        Chcesz podzielić się ankietą? To prosty najlepszy spsób udostępniania dla użytkowników mobilnych. 
+                        Skanuj kod QR i uzyskaj dostęp szybko i wygodnie!
+                    </p>
+                    <a href="{% url 'surveys:qr_code' survey.id %}" target="_blank" class="btn btn-primary">Otwórz kod QR</a>
+                </div>
+                <div class="col p-3">
+                    <h4>Link URL</h4>
+                    <p>
+                        Udostępnienie ankiety przez link to szybki i bezproblemowy sposób, który pozwala respondentom łatwo i 
+                        natychmiastowo uzyskać dostęp do kwestionariusza. Dzięki temu można zwiększyć udział w 
+                        ankiecie i zbierać opinie bez żadnych przeszkód.
+                    </p>
+                    <a href="{% url 'surveys:fill_survey' survey.id %}" class="btn btn-primary">Link do ankiety</a>
+                </div> 
+            </div>
+        </div>
+    </div>
+    
+{% endblock %}

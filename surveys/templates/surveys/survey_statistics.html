@@ -1,0 +1,79 @@
+{% extends "main/base.html" %}
+
+{% load static %}
+
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <h2 class="text-center pb-4">{{ survey.title }}</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-3">
+            {% include './sidemenu.html' %} 
+        </div>
+        <div class="col-12 col-md-9 py-3">
+            {% if question_statistics %}
+                <h3 class="text-center">Statystyki</h3>
+                <p class="text-end">
+                    <a href="{% url 'surveys:delete_all_answers' survey.id %}" class="btn btn-sm btn-danger">
+                    Wyczyść statystyki
+                    </a>
+                </p>
+                <p>Ilość odpowiedzi: {{ questions_total_responses }}</p>
+
+                {% for question_stats in question_statistics %}
+                    <div class="row my-3">
+                        {% if question_stats.question.type in "choice, multiple_choice" %}
+
+                            <div class="col-6">
+                                <h5>{{ question_stats.question.ordinal_number }}. {{ question_stats.question.title }}</h5>
+                                {% if question_stats.question.type == "choice" %}
+                                    <p class="text-muted small">Pytanie jednokrotnego wyboru</p>
+                                {% elif question_stats.question.type == "multiple_choice" %}
+                                    <p class="text-muted small">Pytanie wielokrotnego wyboru</p>
+                                {% endif %}
+                                
+                                <ul class="list-group list-group-flush">
+                                {% for choice, count in question_stats.choice_counts %}
+                                    <li class="list-group-item">{{ choice.text }}: {{ count }}</li>
+                                {% endfor %}
+                                </ul>
+                            </div>
+                            <div class="col-6 ">
+                                <canvas class="survey-question-chart" 
+                                data-question-id="{{ question_stats.question.id }}"
+                                data-question-lables="{{ question_stats.chart.labels }}"
+                                data-question-values="{{ question_stats.chart.values }}"
+                                style="max-height: 300px; width: 100%;; margin: auto;"></canvas>
+                            </div>
+                        {% elif question_stats.question.type == "text"  %}
+                            <div class="col px-4">
+                                <h5>{{ question_stats.question.ordinal_number }}. {{ question_stats.question.title }}</h5>
+                                <p class="text-muted small">Pytanie otwarte</p>
+                                <ul class="list-group list-group-flush">    
+                                {% for answer in question_stats.answers %}
+                                    <li class="list-group-item">{{ answer.answer_text }}</li>
+                                {% endfor %}
+                                </ul>
+                            </div>
+                        {% else %}
+                            <div class="col">
+                                <h4 class="text-center">Ten typ pytania nie jest obsłużony.</h4>
+                            </div>
+                        {% endif %}
+                        {% if not forloop.last %}
+                            <hr class="my-2">
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            {% else %}
+                <h3 class="text-center">Brak dostępnych statystyk</h3>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+{% block javascript %}
+    <script src="{% static 'js/surveys_statistics.js' %}"></script>
+{% endblock %}
+

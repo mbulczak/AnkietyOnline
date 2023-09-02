@@ -1,0 +1,10 @@
+<div class="d-flex flex-column flex-shrink-0 p-3 bg-light">
+    <ul class="nav nav-pills flex-column mb-auto">
+        <li><a href="{% url 'surveys:user_surveys' %}" class="nav-link link-dark">Wróc do listy ankiet</a></li>
+        <li><a href="{% url 'surveys:edit_survey' survey.id %}" class="nav-link link-dark">Ustawienia ankiety</a></li>
+        <li><a href="{% url 'surveys:survey_questions' survey.id %}" class="nav-link link-dark">Pytania</a></li>
+        <li><a href="{% url 'surveys:add_question' survey.id %}" class="nav-link link-dark">Dodaj pytanie</a></li>
+        <li><a href="{% url 'surveys:share_survey' survey.id %}" class="nav-link link-dark">Udostępnij</a></li>
+        <li><a href="{% url 'surveys:survey_statistics' survey.id %}" class="nav-link link-dark">Statystyki</a></li>
+    </ul>
+</div>

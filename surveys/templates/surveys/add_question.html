@@ -1,0 +1,46 @@
+{% extends "main/base.html" %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="col">
+        <h2 class="text-center pb-4">{{ survey.title }}</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 col-md-3">
+        {% include './sidemenu.html' %} 
+    </div>
+    <div class="col-12 col-md-9 py-3 px-3">
+        <h3 class="text-center">Dodaj pytanie</h3>
+        <form method="post">
+            {% csrf_token %}
+
+            {{ form|crispy }}
+            
+            {{ choice_formset.management_form }}
+            <div id="choice-wrapper" class="choice-wrapper" style="display: none;">
+                <h4>Odpowiedzi</h4>
+                {% for form in choice_formset %}
+                    <div class="choice">
+                        {{ form|crispy }}
+                    </div>
+                {% endfor %}
+                <p class="pt-3">
+                    <button type="button" class="btn btn-secondary" id="add-choice">Dodaj kolejną odpowiedź</button>
+                </p>
+            </div>
+            <div id="choice-empty-form" class="d-none">{{ choice_formset.empty_form|crispy }}</div>
+
+            <p class="text-center">
+                <button type="submit" class="btn btn-success">Zapisz pytanie</button>
+            </p>
+            
+        </form>
+    </div>
+</div>
+{% endblock %}
+{% block javascript %}
+    <script src="{% static 'js/surveys_add_choice_item.js' %}"></script>
+{% endblock %}

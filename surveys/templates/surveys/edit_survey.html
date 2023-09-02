@@ -1,0 +1,31 @@
+{% extends "main/base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <h2 class="text-center pb-4">{{ survey.title }}</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-3">
+            {% include './sidemenu.html' %} 
+        </div>
+        <div class="col-12 col-md-6 offset-md-1 px-5 py-3">
+            <h3 class="text-center">Ustawienia ankiety</h3>
+            <p class="text-end">
+                <a href="{% url 'surveys:delete_survey' survey.id %}" class="btn btn-danger">Usuń ankietę</a>
+            </p>
+            <form method="POST">
+                {% csrf_token %}
+
+                {{ form|crispy }}
+
+                <p class="text-center">
+                    <button type="submit" class="btn btn-success">Zapisz zmiany</button>
+                </p>
+            </form>
+        </div>
+    </div>
+{% endblock %}

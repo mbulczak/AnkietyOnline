@@ -1,0 +1,69 @@
+{% extends "surveys/base_surveys.html" %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <h2 class="text-center pb-4">{{ survey.title }}</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-3">
+            {% include './sidemenu.html' %} 
+        </div>
+        <div class="col-12 col-md-9 py-3">
+            <h3 class="text-center">Pytania</h3>
+            <div class="list-group d-grid gap-2 border-0 w-auto pb-3">
+                {% if survey.question_set.all %}
+                    {% for question in survey.question_set.all|dictsort:"ordinal_number" %}
+                        <div class="list-group-item rounded-3 py-3 question-tile" data-id="{{ question.id }}">
+                            <div class="text-end">
+                                <button type="button" class="btn btn-light btn-sm sortable-icon-up">
+                                    <img src="{% static 'images/svg/arrow-up.svg' %}" alt="Up"/>
+                                </button>
+                                <button type="button" class="btn btn-light btn-sm sortable-icon-down">
+                                    <img src="{% static 'images/svg/arrow-down.svg' %}" alt="Down"/>
+                                </button>
+                                <a href="{% url 'surveys:edit_question' question.id %}" class="btn btn-primary btn-sm">Edytuj pytanie</a>
+                                <a href="{% url 'surveys:delete_question' question.id %}" class="btn btn-danger btn-sm">Usuń</a>
+                            </div>
+                            <div class="pt-2">
+                            <strong><span class="ordinal-number">{{ question.ordinal_number }}</span>. {{ question.title }}</strong> 
+                            </div>
+
+                            {% if question.type == "choice" %}
+                                <p class="text-muted small">Pytanie jednokrotnego wyboru</p>
+                            {% elif question.type == "multiple_choice" %}
+                                <p class="text-muted small">Pytanie wielokrotnego wyboru</p>
+                            {% elif question.type == "text" %}
+                                <p class="text-muted small">Pytanie otwarte</p>
+                            {% else %}
+                                <p class="text-danger small">Niezanany typ pytania</p>
+                            {% endif %}
+                            
+                            <ul class="list-group list-group-flush">
+                                {% for choice in question.choice_set.all %}
+                                    <li class="list-group-item">{{ choice.text }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    
+                    {% endfor %}
+                {% else %}
+                    <h4 class="text-center">Ta ankieta nie ma żadnych pytań.</h2>
+                {% endif %}
+            </div>
+            
+            <p class="text-center">
+                <a href="{% url 'surveys:add_question' survey.id %}" class="btn btn-success">Dodaj pytanie</a>
+            </p>
+        </div>
+    </div>
+{% endblock %}
+{% block javascript %}
+    <script src="{% static 'js/surveys_questions.js' %}" 
+    data-url="{% url 'surveys:update_question_position' %}" 
+    data-csrfmiddlewaretoken="{{ csrf_token }}"></script>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% block content %}
+<div class="row">
+    <div class="col">
+        <h1 class="text-center py-5">Witaj w aplikacji Ankiety Online!</h1>
+    </div>
+</div>
+<section class="text-center py-3">
+    <div class="row">
+        <div class="col">
+            <h2 class="py-3">Dostępne są 3 rodzaje pytań</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h3>Pytania jednokrotnego wyboru</h3>
+            <p>
+                Respondent wybiera jedną odpowiedź spośród dostępnych opcji. 
+                To rodzaj pytania, które zapewnia klarowne i łatwe do analizy odpowiedzi.
+            </p>
+        </div>
+        <div class="col">
+            <h3>Pytania wielokrotnego wyboru</h3>
+            <p>
+                Respondent wybiera jedną lub więcej odpowiedzi spośród dostępnych opcji.
+                Ten rodzaj pytania pozwala na zbieranie bardziej złożonych odpowiedzi, które mogą obejmować więcej niż jedną opcję.
+            </p>
+        </div>
+        <div class="col">
+            <h3>Pytania otwarte</h3>
+            <p>
+                Respondent udziela swobodnej odpowiedzi, korzystając z własnych słów.
+                Pozwala to na zebranie bardziej szczegółowych opinii i informacji, choć analiza może być bardziej złożona.
+            </p>
+        </div>
+    </div>
+</section>
+<section class="py-3">
+    <div class="row">
+        <div class="col text-center">
+            <img src="{% static 'images/svg/qr-code.svg' %}" width="50%" height="50%" />
+        </div>
+        <div class="col">
+            <h2>Udostępniaj ankiety za pomocą QR kodu!</h2>
+            <p>
+                Funkcja udostępniania za pomocą QR kodu linku do ankiety jest świetnym sposobem, 
+                aby umożliwić użytkownikom łatwe i szybkie dostanie się do ankiety poprzez zeskanowanie QR kodu
+            </p>
+        </div>
+    </div>
+</section>
+{% endblock %}

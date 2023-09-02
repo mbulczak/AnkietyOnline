@@ -1,0 +1,37 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Ankiety Online</title>
+        <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+
+        {% block css %}{% endblock %}
+    </head>
+    <body class="d-flex flex-column" style="min-height: 100dvh;">
+
+        <main class="container mt-4">
+            {% include "main/alerts.html" %}
+
+            {% block content %}{% endblock %}
+        </main>
+
+        <footer class="footer mt-auto py-3 bg-light">
+            <div class="container">
+                <div class="row">
+                    <p class="col text-center text-muted mb-0">Ankiety online - Aplikacja stworzona przez Marka Bulczak</p>
+                </div>
+            </div>
+        </footer>
+
+        <script src="{% static 'js/jquery.js' %}"></script>
+        <script src="{% static 'js/bootstrap.bundle.js' %}"></script>
+        <script src="{% static 'js/chart.js' %}"></script>
+        <script src="{% static 'js/main.js' %}"></script>
+
+        {% block javascript %}{% endblock %}
+    </body>
+</html>

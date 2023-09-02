@@ -1,0 +1,82 @@
+{% extends "surveys/base_surveys.html" %}
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <h2 class="text-center mb-5">Moje ankiety</h1>
+        </div>
+    </div>
+    <div class="row gx-2">
+        <div class="col-12 col-md-3">
+            <div class="border-bottom pb-3">
+                <a href="{% url 'surveys:create_survey' %}" class="btn btn-primary">
+                    Utwórz nową ankiete
+                </a>
+            </div>
+            <ul class="list-unstyled py-3">
+                <h5>Szybka akcja</h5>
+                {% if surveys %}
+                {% for survey in surveys %}
+                    <li class="mb-1">
+                        <button class="btn btn-toggle border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#survey-{{ survey.id }}-quick-action" aria-expanded="true">
+                            {{ survey.title }}
+                        </button>
+                        <div class="collapse" id="survey-{{ survey.id }}-quick-action">
+                            <ul class="btn-toggle-nav list-unstyled small">
+                                <li><a href="{% url 'surveys:edit_survey' survey.id %}" class="link-dark d-inline-flex text-decoration-none rounded">Ustawienia ankiety</a></li>
+                                <li><a href="{% url 'surveys:survey_questions' survey.id %}" class="link-dark d-inline-flex text-decoration-none rounded">Pytania</a></li>
+                                <li><a href="{% url 'surveys:add_question' survey.id %}" class="link-dark d-inline-flex text-decoration-none rounded">Dodaj pytanie</a></li>
+                                <li><a href="{% url 'surveys:share_survey' survey.id %}" class="link-dark d-inline-flex text-decoration-none rounded">Udostępnij</a></li>
+                                <li><a href="{% url 'surveys:survey_statistics' survey.id %}" class="link-dark d-inline-flex text-decoration-none rounded">Statystyki</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                {% endfor %}
+                {% else %}
+                    <p class="small">Nie masz żadnej ankiety.</p>
+                {% endif %}
+            </ul>
+        </div>
+        <div class="col-12 col-md-9">
+            {% if surveys %}
+            <div class="list-group d-grid gap-2 border-0 w-auto py-3">
+                {% for survey in surveys %}
+                    <div class="list-group-item rounded-3 py-3" for="listGroupCheckableRadios1">
+                        <p class="text-end mb-0">
+                            {% if survey.is_active %}
+                                <span class="badge text-bg-success">Aktywna</span>
+                            {% else %}
+                                <span class="badge text-bg-danger">Nieaktywna</span>
+                            {% endif %}
+                        </p>
+                        <h5>{{ survey.title }}</h5>
+                        <p class="mb-1">Liczba pytań: {{ survey.question_set.count }}</p>
+                        <p class="mb-1">Data utworzenia: {{ survey.created_at }}</p>
+                        <p class="mb-1">Data modyfikacji: {{ survey.modified_at }}</p>
+                        <p>
+                            <a href="{% url 'surveys:survey_questions' survey.id %}" class="btn btn-sm btn-primary">Szczegóły</a>
+                            <a href="{% url 'surveys:delete_survey' survey.id %}" class="btn btn-sm btn-danger">Usuń</a>
+                        </p>
+                        {% if survey.description %}
+                            <div class="accordion accordion-flush">
+                                <div class="accordion-item">
+                                    <p class="accordion-header small text-muted">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-decription-{{ survey.id }}" aria-expanded="false" aria-controls="flush-collapseOne">
+                                            {{ survey.description|truncatewords:15 }}
+                                        </button>
+                                    </p>
+                                    <div id="accordion-decription-{{ survey.id }}" class="accordion-collapse collapse" data-bs-parent="#accordion-decription-{{ survey.id }}">
+                                        <p class="accordion-body">{{ survey.description }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    <span class="d-block small text-muted opacity-60"></span>
+                    </div>
+                {% endfor %}
+              </div>
+            {% else %}
+                <p class="text-center">Nie masz żadnej ankiety. <a href="{% url 'surveys:create_survey' %}">Utwórz ją tutaj!</a></p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "main/base_empty.html" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col text-center">
+            <h1 class="py-5">Dziękujemy za wypełnienie ankiety!</h1>
+            <h3>Twoje odpowiedź została zarejestowana.</h3>
+            <p><a href="{% url 'main:home' %}" class="btn btn-primary btn-lg">Przejdź do strony głównej</a></p>
+        </div>
+    </div>
+{% endblock %}

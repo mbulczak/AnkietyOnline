@@ -1,0 +1,17 @@
+{% load static %}
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible d-flex align-items-center" role="alert">
+                {% if message.tags in 'success' %}
+                    <img src="{% static 'images/svg/check-circle-fill.svg' %}" class="me-2" alt="{{ message.tags }}"/>
+                {% elif message.tags in 'error, warning' %}
+                    <img src="{% static 'images/svg/exclamation-triangle-fill.svg' %}" class="me-2" alt="{{ message.tags }}"/>
+                {% elif message.tags in 'info' %}
+                    <img src="{% static 'images/svg/info-circle.svg' %}" class="me-2" alt="{{ message.tags }}"/>
+                {% endif %}
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Zamknij"></button>
+        </div>
+    {% endfor %}
+{% endif %}
