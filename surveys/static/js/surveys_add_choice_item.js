@@ -1,7 +1,9 @@
+const paramsSurveyAddChoiceItem = document.currentScript.dataset;
+
 $(document).ready(function() {
     let wyboryFormset = $('#choice-wrapper');
     let addButton = $('#add-choice');
-    let totalForms = parseInt('{{ choice_formset.total_form_count }}');
+    let totalForms = parseInt(paramsSurveyAddChoiceItem.totalFormCount);
     let removeBtnHtml= `<button type="button" class="btn btn-danger btn-sm remove-choice">Usuń</button>`;
     let emptyFormset = $('#choice-empty-form');
 
