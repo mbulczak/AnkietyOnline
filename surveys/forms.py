@@ -49,9 +49,11 @@ class ResponseForm(forms.ModelForm):
         model = Response
         fields = []
 
-    def __init__(self, *args, survey=None, **kwargs):
+    def __init__(self, *args, survey=None, user=None, **kwargs):
         super().__init__(*args, **kwargs)
         self.survey = survey
+        self.user = user
+
         for question in self.survey.question_set.all().order_by("ordinal_number"):
             field_name = f"question_{question.id}"
             question_label = f"{question.ordinal_number}. {question.title}"
@@ -80,8 +82,8 @@ class ResponseForm(forms.ModelForm):
         response = super().save(commit=False)
         response.survey = self.survey
 
-        if self.user.is_authenticated:
-            response.respondent_user = self.user.username
+        if self.user and self.user.is_authenticated:
+            response.respondent_user = self.user
             
         response.save()
 

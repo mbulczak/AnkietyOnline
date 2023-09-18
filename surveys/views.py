@@ -200,7 +200,7 @@ def fill_survey(request, survey_id):
     survey = get_object_or_404(Survey, pk=survey_id, is_active=True)
 
     if request.method == "POST":
-        form = ResponseForm(request.POST, survey=survey)
+        form = ResponseForm(request.POST, survey=survey, user=request.user)
         if form.is_valid():
             response = form.save()
             return redirect("surveys:survey_filled", response_id=response.id)
